@@ -14,32 +14,20 @@ import kotlin.random.Random
 class MainActivity : AppCompatActivity() {
     //   lateinit var apiManager: APIManager
     lateinit var contentText: String
-//    lateinit var listOfMessages: Messages
+    lateinit var listOfMessages: Messages
     var text = "unable to retrieve message"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val annoyApp = (application as AnnoyApp)
         val annoyNotifManager = annoyApp.annoyNotificationManager
-        //   apiManager = annoyApp.apiManager
-//        annoyNotifManager.contentText = text
+         getMessages({
+             listOfMessages = it
+             returnMessage(listOfMessages)
+         })
 
-        val queue: RequestQueue = Volley.newRequestQueue(this)
-        val messagesURL =
-            "https://raw.githubusercontent.com/echeeUW/codesnippets/master/ex_messages.json"
-        val req = StringRequest(
-            Request.Method.GET, messagesURL,
-            { response ->
-                val gson = Gson()
-                var listOfMessages = gson.fromJson(response, Messages::class.java)
-                returnMessage(listOfMessages)
-//                onMessagesReady(listOfMessages)
-            },
-            {
-                Log.i("ERROR", "error")
-            })
-        queue.add(req)
 
 
         annoyButton.setOnClickListener {
@@ -54,6 +42,24 @@ class MainActivity : AppCompatActivity() {
 
          }
 
+    private fun getMessages(onMessagesReady: (Messages) -> Unit) {
+        val queue: RequestQueue = Volley.newRequestQueue(this)
+        val messagesURL =
+            "https://raw.githubusercontent.com/echeeUW/codesnippets/master/ex_messages.json"
+        val req = StringRequest(
+            Request.Method.GET, messagesURL,
+            { response ->
+                val gson = Gson()
+               val list = gson.fromJson(response, Messages::class.java)
+                onMessagesReady(list)
+            },
+            {
+                Log.i("ERROR", "error")
+            })
+        queue.add(req)
+
+    }
+
     private fun returnMessage(listOfMessages: Messages) {
         var txt:String
         if (listOfMessages != null) {
@@ -63,6 +69,7 @@ class MainActivity : AppCompatActivity() {
             txt = "unable to retrieve message"
         }
         val annoyApp = (application as AnnoyApp)
-        annoyApp.annoyNotificationManager.contentText = txt
+        val annoyNotifManager = annoyApp.annoyNotificationManager
+        annoyNotifManager.contentText = txt
     }
 }

@@ -27,17 +27,12 @@ class AnnoyNotificationManager(private val context: Context) {
     companion object {
         const val ANNOY_CHANNEL_ID = "ANNOY_CHANNEL_ID"
     }
-      var contentText = "replace"
+       var contentText: String = ""
+    lateinit var msg: String
 
-
-//    fun getText() : String {
-//        if (contentText == null) {
-//           text = ("unable to retrieve message")
-//
-//        } else {
-//            text = contentText
-//        }
-//    }
+    fun getText() : String {
+        return contentText
+    }
 
 
     fun postNotif() {
@@ -50,7 +45,7 @@ class AnnoyNotificationManager(private val context: Context) {
         val notification = NotificationCompat.Builder(context, ANNOY_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_warning_black_24dp)
             .setContentTitle("Drake")
-            .setContentText(contentText)
+            .setContentText(getText())
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
