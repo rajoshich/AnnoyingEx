@@ -27,26 +27,17 @@ class AnnoyNotificationManager(private val context: Context) {
     companion object {
         const val ANNOY_CHANNEL_ID = "ANNOY_CHANNEL_ID"
     }
-    private lateinit var contentText: String
-   // API MANAGER
-    private val queue: RequestQueue = Volley.newRequestQueue(context)
+      var contentText = "replace"
 
-    fun getMessages(onMessagesReady: (Messages) -> Unit, onError: (() -> Unit)? = null) {
-        val userURL = "https://raw.githubusercontent.com/echeeUW/codesnippets/master/ex_messages.json"
-        val req = StringRequest(
-            Request.Method.GET, userURL,
-            {response ->
-                val gson = Gson()
-                val messages = gson.fromJson(response, Messages::class.java)
-                onMessagesReady(messages)
-                Log.i("TAGAG", messages.toString())
-            },
-            {
-                contentText = "unable to retrieve message"
-            })
-        queue.add(req)
-    }
-    //
+
+//    fun getText() : String {
+//        if (contentText == null) {
+//           text = ("unable to retrieve message")
+//
+//        } else {
+//            text = contentText
+//        }
+//    }
 
 
     fun postNotif() {
@@ -55,10 +46,12 @@ class AnnoyNotificationManager(private val context: Context) {
         }
         val pendingIntent = PendingIntent.getActivity(context, 111, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
+
         val notification = NotificationCompat.Builder(context, ANNOY_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_warning_black_24dp)
             .setContentTitle("Drake")
             .setContentText(contentText)
+            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)

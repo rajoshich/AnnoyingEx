@@ -10,8 +10,11 @@ class AnnoyApp: Application() {
     lateinit var annoyNotificationManager: AnnoyNotificationManager
     private set
 
+    lateinit var apiManager: APIManager
+
     override fun onCreate() {
         super.onCreate()
+        apiManager = APIManager(this)
 
         annoyManager = AnnoyManager(this)
         annoyNotificationManager = AnnoyNotificationManager(this)
