@@ -30,10 +30,6 @@ class AnnoyNotificationManager(private val context: Context) {
        var contentText: String = ""
     lateinit var msg: String
 
-    fun getText() : String {
-        return contentText
-    }
-
 
     fun postNotif() {
         val intent = Intent(context, MainActivity::class.java).apply {
@@ -45,7 +41,7 @@ class AnnoyNotificationManager(private val context: Context) {
         val notification = NotificationCompat.Builder(context, ANNOY_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_warning_black_24dp)
             .setContentTitle("Drake")
-            .setContentText(getText())
+            .setContentText(contentText)
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
