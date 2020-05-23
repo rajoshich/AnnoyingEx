@@ -9,10 +9,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val annoyApp = (application as AnnoyApp)
+        val annoyNotifManager = annoyApp.annoyNotificationManager
+        annoyNotifManager.getMessages({ messages ->
+            val listOfMessages = messages
+        })
 
         annoyButton.setOnClickListener {
-            (application as AnnoyApp).annoyManager.startAnnoying()
+
+           annoyApp.annoyManager.startAnnoying()
+            annoyNotifManager.postNotif()
+
     }
+
+
 
     }
 }
