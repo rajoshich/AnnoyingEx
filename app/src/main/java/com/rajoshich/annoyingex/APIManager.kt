@@ -11,11 +11,11 @@ import com.google.gson.Gson
 import kotlin.random.Random
 
 class APIManager(context: Context) {
-private lateinit var contentText: String
+
     private val queue: RequestQueue = Volley.newRequestQueue(context)
 
 
-     fun getMessages(onMessagesReady: (Messages) -> Unit) {
+     fun getMessages(onMessagesReady: (Messages) -> Unit, onError: (() -> Unit)? = null) {
         val messagesURL =
             "https://raw.githubusercontent.com/echeeUW/codesnippets/master/ex_messages.json"
         val req = StringRequest(

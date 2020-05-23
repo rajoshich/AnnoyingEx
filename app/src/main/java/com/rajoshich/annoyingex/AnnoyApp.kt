@@ -15,7 +15,6 @@ class AnnoyApp: Application() {
     override fun onCreate() {
         super.onCreate()
         apiManager = APIManager(this)
-
         annoyManager = AnnoyManager(this)
         annoyNotificationManager = AnnoyNotificationManager(this)
     }
